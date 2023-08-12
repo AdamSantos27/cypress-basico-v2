@@ -71,7 +71,7 @@ it('exibe mensagem de erro ao passar email com formato incorreto', () => {
     cy.get('.error').should('be.visible')
   })
 
-  it.only('envia o formulario com sucesso usando um comando customizado', () => {
+  it.only('envia o formulario com sucesso usando um comando customizado.', () => {
     cy.fillMandatoryFieldsAndSubmit() 
     cy.get('.success').should('be.visible')
   })
