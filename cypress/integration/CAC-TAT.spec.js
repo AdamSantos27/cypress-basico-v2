@@ -71,8 +71,46 @@ it('exibe mensagem de erro ao passar email com formato incorreto', () => {
     cy.get('.error').should('be.visible')
   })
 
-  it.only('envia o formulario com sucesso usando um comando customizado.', () => {
+  it('envia o formulario com sucesso usando um comando customizado.', () => {
     cy.fillMandatoryFieldsAndSubmit() 
     cy.get('.success').should('be.visible')
   })
+
+  it('selecionando  o campo suspenso (YouTube) por seu texto', () => {
+    cy.get('#product')
+    .select('YouTube').should('have.value', 'youtube')
+  })
+
+  it('selecionando o campo suspenso (mentoria) por seu valor (value)', () => {
+    cy.get('#product')
+    .select('mentoria').should('have.value', 'mentoria')
+  })
+  
+  it('selecionando o campo suspenso (Blog) por seu índice', () => {
+    cy.get('#product')
+    .select(1).should('have.value', 'blog')
+  })
+
+  it('Marcar o tipo de atendimento feedback', () => {
+    cy.get('input[value="feedback"]')
+      .check()
+      .should('have.value', 'feedback')
+  })
+
+  it('Marcar cadaa tipo de atendimento', () => {
+    cy.get('input[type="radio"]')
+      .should('have.length', 3)
+      .each(function($radio) {
+        cy.wrap($radio).check()
+        cy.wrap($radio).should('be.checked')
+    })
+  })
+
+  it.only('Marcar ambos os checkbox e desmarcar o ultimo', () => {
+    cy.get('input[type="checkbox"]')
+      .check()
+      .should('be.checked')
+      .last().uncheck()
+      .should('not.be.checked')
+})
 })
