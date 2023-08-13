@@ -97,7 +97,7 @@ it('exibe mensagem de erro ao passar email com formato incorreto', () => {
       .should('have.value', 'feedback')
   })
 
-  it('Marcar cadaa tipo de atendimento', () => {
+  it('Marcar cada tipo de atendimento', () => {
     cy.get('input[type="radio"]')
       .should('have.length', 3)
       .each(function($radio) {
