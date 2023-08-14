@@ -7,7 +7,7 @@ describe('Central de Atendimento ao Cliente TAT', function () {
   })
   
   it('verifica o título da aplicação', function () {
-    cy.title().should('be.equal', 'Central de atendimento ao cliente TAT')
+    cy.title().should('be.equal', 'Central de Atendimento ao Cliente TAT')
   })
 
   it('Preenche os campos obrigatórios e envia o formulário', function () {
@@ -21,7 +21,7 @@ describe('Central de Atendimento ao Cliente TAT', function () {
 
 it('exibe mensagem de erro ao passar email com formato incorreto', () => {
   cy.get('#firstName').type('adam')
-  cy.get('#lastName').should('be.visible').type('Santos',)
+  cy.get('#lastName').should('be.visible').type('Santos')
   cy.get('#email').should('be.visible').type('adam.santos,com')
   cy.get('#open-text-area').type('htfchgcxyticlvçkvkvlvvvljhvjbhbbsabdsvadgvgvgvd',{delay:0})
   cy.get('button[type="submit"]').click().should('be.visible')
@@ -37,7 +37,7 @@ it('exibe mensagem de erro ao passar email com formato incorreto', () => {
     cy.get('#firstName').type('adam')
     cy.get('#lastName').type('Santos')
     cy.get('#email').type('adamsantos@gmail.com')
-    cy.get('#phone-checkbox').click()
+    cy.get('#phone-checkbox').check()
     cy.get('#open-text-area').type('htfchgcxyticlvç')
     cy.get('button[type="submit"]').click().should('be.visible')
     cy.get('.error').should('be.visible')
@@ -106,11 +106,46 @@ it('exibe mensagem de erro ao passar email com formato incorreto', () => {
     })
   })
 
-  it.only('Marcar ambos os checkbox e desmarcar o ultimo', () => {
+  it('Marcar ambos os checkbox e desmarcar o ultimo', () => {
     cy.get('input[type="checkbox"]')
       .check()
       .should('be.checked')
       .last().uncheck()
       .should('not.be.checked')
-})
+  })
+  
+  it('seleciona um arquivo da pasta fixtures', () => {
+    cy.get('input[type="file"]')
+      .should('not.have.value')
+      .selectFile('./cypress/fixtures/example.json')
+      .should(function ($input){
+        expect($input[0].files[0].name).to.equal('example.json')
+      })
+  })
+
+  it('seleciona um arquivo simulando um drag-and-drop', () => {
+    cy.get('input[type="file"]')
+      .should('not.have.value')
+      .selectFile('./cypress/fixtures/example.json', {action: 'drag-drop'})
+      .should(function ($input){
+        expect($input[0].files[0].name).to.equal('example.json')})
+  })
+
+  it('seleciona um arquivo utilizando um caminho para a qual foi dada um alias', () => {
+    cy.fixture('example.json').as('aquivo')
+    cy.get('input[type="file"]')
+    .selectFile('@aquivo').should(function ($input){
+      expect($input[0].files[0].name).to.equal('example.json')})
+  })
+
+  it('verifica se o link políticas de privacidade abre em outra aba', () => {
+    cy.get('#privacy a').should('have.attr', 'target', '_blank')
+  })
+
+  it('acessa o link da política de privacidade removendo o target e clicando no link', () => {
+    cy.get('#privacy a')
+      .invoke('removeAttr', 'target')
+      .click()
+      cy.title().should('be.equal','Central de Atendimento ao Cliente TAT - Política de privacidade')
+  })
 })
