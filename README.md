@@ -1,12 +1,12 @@
 # cypress-basico-v2
 
-Sample project for the basic course of the Talking About Testing online school.
+Sample project for the basic course of the Talking About Testing online school, where I could have all the knowledge base of this tool.
 
 ## Pre-requirements
 
 It is required to have Node.js and npm installed to run this project.
 
-> I used versions `v16.13.2` and `8.3.2` of Node.js and npm, respectively. I suggest you use the same or later versions.
+> I used versions `v18.15.0` and `9.7.1` of Node.js and npm, respectively. I suggest you use the same or later versions.
 
 ## Installation
 
@@ -32,4 +32,4 @@ If you want to support this project, leave a ⭐.
 
 ___
 
-This project was created with 💚 by [Walmyr](https://walmyr.dev).
+This project was created with 💚 by [Walmyr](https://walmyr.dev), and was edited and customized by me :sparkling_heart:.
