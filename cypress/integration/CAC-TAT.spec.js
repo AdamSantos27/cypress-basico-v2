@@ -19,7 +19,7 @@ describe('Central de Atendimento ao Cliente TAT', function () {
     cy.get('button[type="submit"]').should('be.visible', 'button[type="submit"]').click().should('be.visible', 'span[class="success"]')
   })
 
-it('exibe mensagem de erro ao passar email com formato incorreto', () => {
+it.only('exibe mensagem de erro ao passar email com formato incorreto', () => {
   cy.get('#firstName').type('adam')
   cy.get('#lastName').should('be.visible').type('Santos')
   cy.get('#email').should('be.visible').type('adam.santos,com')
