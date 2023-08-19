@@ -1,7 +1,7 @@
 /// <reference types="Cypress" />
 
 describe('Central de Atendimento ao Cliente TAT', function () {
-
+const TRES_SEGUNDOS_MS = 3000
   beforeEach(function () {
     cy.visit('./src/index.html')
   })
@@ -11,21 +11,28 @@ describe('Central de Atendimento ao Cliente TAT', function () {
   })
 
   it('Preenche os campos obrigatórios e envia o formulário', function () {
-    cy.get('#firstName')
-      .should('be.visible').type('adam',{delay:0}).should('have.value', 'adam')
-    cy.get('#lastName').should('be.visible').type('Santos',{delay:0}).should('have.value', 'Santos')
-    cy.get('#email').should('be.visible').type('adam.santos@gmail.com', {delay:0}).should('have.value', 'adam.santos@gmail.com')
-    cy.get('#open-text-area').should('be.visible').type('htfchgcxyticlvçkvkvlvvvljhvjbhbbsabdsvadgvgvgvd',{delay:0}).should('have.value', 'htfchgcxyticlvçkvkvlvvvljhvjbhbbsabdsvadgvgvgvd')
-    cy.get('button[type="submit"]').should('be.visible', 'button[type="submit"]').click().should('be.visible', 'span[class="success"]')
+
+    cy.clock()
+
+    cy.fillMandatoryFieldsAndSubmit()
+    cy.contains('button', 'Enviar').click()
+    cy.get('.success').should('be.visible')
+    cy.tick(TRES_SEGUNDOS_MS)
+    cy.get('.success').should('not.be.visible')
   })
 
-it('exibe mensagem de erro ao passar email com formato incorreto', () => {
+  it('exibe mensagem de erro ao passar email com formato incorreto', () => {
+  
+  cy.clock()
+
   cy.get('#firstName').type('adam')
-  cy.get('#lastName').should('be.visible').type('Santos')
-  cy.get('#email').should('be.visible').type('adam.santos,com')
+  cy.get('#lastName').type('Santos')
+  cy.get('#email').type('adam.santos,com')
   cy.get('#open-text-area').type('htfchgcxyticlvçkvkvlvvvljhvjbhbbsabdsvadgvgvgvd',{delay:0})
   cy.get('button[type="submit"]').click().should('be.visible')
   cy.get('.error').should('be.visible')
+  cy.tick(TRES_SEGUNDOS_MS)
+  cy.get('.error').should('not.be.visible')
 })
   
   it('campo de telefone continua vazio quando preenchido com valores não númericos', () => {
@@ -34,36 +41,31 @@ it('exibe mensagem de erro ao passar email com formato incorreto', () => {
   })
 
   it('exibe mensagem de erro quando o telefone estiver marcado como obrigatório', () => {
-    cy.get('#firstName').type('adam')
-    cy.get('#lastName').type('Santos')
-    cy.get('#email').type('adamsantos@gmail.com')
+
+    cy.clock()
     cy.get('#phone-checkbox').check()
-    cy.get('#open-text-area').type('htfchgcxyticlvç')
-    cy.get('button[type="submit"]').click().should('be.visible')
+    cy.fillMandatoryFieldsAndSubmit()
+    cy.get('#phone').type('8587564587',{delay:0}).clear()
+    cy.contains('button', 'Enviar').click()
     cy.get('.error').should('be.visible')
+    cy.tick(TRES_SEGUNDOS_MS)
+    cy.get('.error').should('not.be.visible')
   })
 
   it('preenche e limpa todos os input de texto', () => {
-    cy.get('#firstName')
-      .type('adam')
-      .should('have.value', 'adam').clear()
-      .should('have.value', '')
-    cy.get('#lastName')
-      .type('Santos')
-      .should('have.value', 'Santos').clear()
-      .should('have.value', '')
-    cy.get('#email')
-      .type('adamsantos@gmail.com')
-      .should('have.value', 'adamsantos@gmail.com').clear()
-      .should('have.value', '')
-    cy.get('#phone')
-      .type('8587564587')
-      .should('have.value', '8587564587').clear()
-      .should('have.value', '')
-    cy.get('#open-text-area')
-      .type('htfchgcxyticlvç')
-      .should('have.value', 'htfchgcxyticlvç').clear()
-      .should('have.value', '')
+
+    cy.fillMandatoryFieldsAndSubmit()
+    cy.get('#firstName').should('have.value', 'Adam')
+    cy.get('#lastName').should('have.value', 'Santos')
+    cy.get('#email').should('have.value','adamsantos@gmail.com')
+    cy.get('#open-text-area').should('have.value', 'teste')
+    cy.get('#phone').should('have.value', '8587564587')
+    cy.clearfullinputs()
+    cy.get('#firstName').should('not.have.value')
+    cy.get('#lastName').should('not.have.value')
+    cy.get('#email').should('not.have.value')
+    cy.get('#open-text-area').should('not.have.value')
+    cy.get('#phone').should('not.have.value')
   })
 
   it('acessar a aplicação e verificar se campos obrigatórios funcionam', () => {
@@ -72,8 +74,14 @@ it('exibe mensagem de erro ao passar email com formato incorreto', () => {
   })
 
   it('envia o formulario com sucesso usando um comando customizado.', () => {
-    cy.fillMandatoryFieldsAndSubmit() 
+    
+    cy.clock()
+
+    cy.fillMandatoryFieldsAndSubmit()
+    cy.contains('button', 'Enviar').click()
     cy.get('.success').should('be.visible')
+    cy.tick(TRES_SEGUNDOS_MS)
+    cy.get('.success').should('not.be.visible')
   })
 
   it('selecionando  o campo suspenso (YouTube) por seu texto', () => {
