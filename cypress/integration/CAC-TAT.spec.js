@@ -150,7 +150,7 @@ const TRES_SEGUNDOS_MS = 3000
     cy.get('#privacy a').should('have.attr', 'target', '_blank')
   })
 
-  it('acessa o link da política de privacidade removendo o target e clicando no link', () => {
+  it('Acessa o link da política de privacidade removendo o target e clicando no link', () => {
     cy.get('#privacy a')
       .invoke('removeAttr', 'target')
       .click()
