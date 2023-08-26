@@ -1,12 +1,6 @@
-/// <reference types="Cypress" />
-
-describe('Central de Atendimento ao Cliente TAT - Política de privacidade', function () {
-
-  beforeEach(function () {
-    cy.visit('./src/index.html')
-  })
-  it('', () => {
-    cy.visit('./src/privacy.html')
-    cy.title().should('be.equal', 'Central de Atendimento ao Cliente TAT - Política de privacidade')
-  })
+  Cypress._.times(5, () => {
+    it('testa a página da política de privacidade de forma independente', () => {
+      cy.visit('/src/privacy.html')
+      cy.title().should('be.equal', 'Central de Atendimento ao Cliente TAT - Política de privacidade')
+})
   })
