@@ -1,4 +1,4 @@
-# cypress-basico-v2
+# Cypress-Basico-v2
 
 Sample project for the basic course of the Talking About Testing online school, where I could have all the knowledge base of this tool.
 
